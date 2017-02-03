@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="StoreDbEntities-Web.config Connection String" description="StoreDbEntities Connection String used in web.config by the application to access the database." defaultValue="Server=tcp:sl6809zqo4.database.windows.net,1433;Database=StoreDb;User ID=BruxellesFormation@sl6809zqo4;Password=Pa$$w0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Afghan\\documents\\visual\ studio\ 2013\\Projects\\StoreDal\\WebStoreMVC\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StoreDbEntities']/@connectionString" />
+  </parameter>
+</parameters>

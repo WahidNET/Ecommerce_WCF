@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="StoreWCF.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2015-04.2.6">
+  <Role name="StoreWCF">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bruxellesfomration;AccountKey=7dOTrzjO87ujcSNsZ6yXT791eFdegGdh2AF9ljzAkIVZoGaEen+Smly8eO5YU73ZWsVUFe1TVcUGvgm2nOsDSA==" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>

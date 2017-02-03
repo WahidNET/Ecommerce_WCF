@@ -1,0 +1,50 @@
+﻿@model  Order
+
+@{
+    System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+    customCulture.NumberFormat.NumberDecimalSeparator = ".";
+    System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+    ViewBag.Title = "Checkout Complete";
+  var tot=  Model.Total;
+  var output = String.Format("{0:0.00}", tot);  
+ 
+}
+
+<h2>Checkout Complete</h2>
+
+<p>Commande :@Model.OrderId Votre commande a bien été enregistrée </p>
+@using (Html.BeginForm("ValidateCommand", "PayPal"))
+{
+     <div>
+        <table>
+            <tr>
+                <td>
+                    Numéro du commande:
+                </td>
+                <td>
+                    <input type="text" name="product" value="Commande numéro : @Model.OrderId" readonly />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Total à payé:
+                </td>
+                <td>
+                    $<input type="text" name="totalPrice" value="@output" readonly />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" name="btnConfirm" value="Check Out with Paypal" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+        <p>
+            @Html.ActionLink("Home", "Index", "Produits")
+        </p>
+
+}

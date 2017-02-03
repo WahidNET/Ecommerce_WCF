@@ -1,0 +1,10 @@
+C:\Users\Afghan\Documents\Visual Studio 2013\Projects\StoreDal\StoreModels\bin\Debug\StoreModels.dll.config
+C:\Users\Afghan\Documents\Visual Studio 2013\Projects\StoreDal\StoreModels\bin\Debug\StoreModels.dll
+C:\Users\Afghan\Documents\Visual Studio 2013\Projects\StoreDal\StoreModels\bin\Debug\StoreModels.pdb
+C:\Users\Afghan\Documents\Visual Studio 2013\Projects\StoreDal\StoreModels\bin\Debug\EntityFramework.dll
+C:\Users\Afghan\Documents\Visual Studio 2013\Projects\StoreDal\StoreModels\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Afghan\Documents\Visual Studio 2013\Projects\StoreDal\StoreModels\bin\Debug\EntityFramework.xml
+C:\Users\Afghan\Documents\Visual Studio 2013\Projects\StoreDal\StoreModels\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Afghan\Documents\Visual Studio 2013\Projects\StoreDal\StoreModels\obj\Debug\StoreModels.csprojResolveAssemblyReference.cache
+C:\Users\Afghan\Documents\Visual Studio 2013\Projects\StoreDal\StoreModels\obj\Debug\StoreModels.dll
+C:\Users\Afghan\Documents\Visual Studio 2013\Projects\StoreDal\StoreModels\obj\Debug\StoreModels.pdb

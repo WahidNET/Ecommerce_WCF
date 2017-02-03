@@ -1,0 +1,18 @@
+﻿@using WebStoreMVC.Controllers
+@{
+    ViewBag.Title = "OrderNow";
+}
+
+<table>
+    <tr>
+        <td>Name</td>
+        <td>Prix</td>
+    </tr>
+    @foreach (Item item in (List<Item>)Session["cart"])
+    {
+        <tr>
+            <td>item.Produit.Title</td>
+            <td>item.Produit.Price</td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,92 @@
+﻿@model Produit
+
+@{
+    ViewBag.Title = "Details";
+    decimal? prix = Model.Price;
+    decimal? pprix = (decimal)prix * 1.20m;
+    var outputPprix = String.Format("{0:0.00}", pprix);
+}
+
+<div class="container">
+    <div class="row">
+        <div class="span3">
+            <div class="well">
+                <table>
+                    <tr>
+                        <td>
+
+
+                            @*@Html.DisplayFor(model => model.Image)*@
+                            <img src="@Url.Content(Model.Image)" alt="Image" class="img-rounded"   />
+
+                        </td>
+
+                        <td>
+                           
+                            <div class="col-lg-10 col-md-10 col-xs-10 thumb">
+                                <h2>@Html.DisplayFor(model => model.Title)</h2>
+
+                                <p>
+                                    @Html.DisplayFor(model => model.Description)
+                                </p>
+
+                                <h3>
+                                    @Html.DisplayFor(modelItem => modelItem.Marque.Name) <br />
+                                </h3>
+                                <h4>
+                                    <b>
+                                        @Html.DisplayFor(modelItem => modelItem.Genre.Name) <br />
+
+                                    </b>
+                                </h4>
+                                <p>@Html.DisplayFor(modelItem => modelItem.Genre.Description) <br /></p>
+                                @if (Model.Quantite != 0)
+                                {
+                                    <h5 style="color:green">
+                                        <b>
+                                            @Html.DisplayFor(modelItem => modelItem.Quantite)
+                                            Produits en stock
+                                        </b> <br />
+                                    </h5>
+
+                                }
+                                else
+                                {
+                                    <h5 style="color:#FF0000">
+                                        <b>En rupture de stock</b>
+                                    </h5><br />
+                                }
+                               
+                                @*@Html.DisplayFor(modelItem => item.Description) <br />*@
+
+                                <h4 style="color:red">
+                                    <s style="color:black">@outputPprix<i class="glyphicon glyphicon-euro"></i></s>
+                                    <b>@Html.DisplayFor(modelItem => modelItem.Price)</b>
+                                    <i class="glyphicon glyphicon-euro"></i>
+                                    <br />
+                                </h4>
+
+
+
+                                <a class="btn btn-success" href="@Url.Action("Index", "Produits")">Page précedent</a>
+
+                                @*<a class="btn btn-success" href="@Url.Action("Details", "Produits", new { id = item.ProduitId })">Consulter</a>*@
+
+
+
+                                @if (Model.Quantite != 0)
+                                {
+                                    <a class="btn btn-primary" href="@Url.Action("AddToCart", "ShoppingCart", new { id = Model.ProduitId })">
+                                        Ajouter au panier
+                                    </a>
+                                }
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,140 @@
+﻿@model WebStoreMVC.ViewModels.ShoppingCartViewModel
+@{
+    ViewBag.Title = "Shopping Cart";
+}
+
+
+
+<div id="update-message">
+</div>
+
+<div class="container">
+    <h2>Panier d'achats</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Produits</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+
+            </tr>
+        </thead>
+        @foreach (var item in Model.CartItems)
+        {
+            <tbody>
+                <tr id="row-@item.RecordId">
+                    <th><img class="img-responsive" src="@Url.Content(item.Produit.Image)" width="30" height="25"></th>
+                    <td>
+                        @Html.ActionLink(item.Produit.Title,
+"Details", "Produits", new { id = item.ProduitId }, null)
+                    </td>
+                    <td>
+                        € @String.Format("{0:0.00}", item.Produit.Price)
+                    </td>
+                    <td>
+                        <input id="input" onblur="myBlur(this)" type="number" data-id="@item.ProduitId" value="@item.Count" min="1" max="@item.Produit.Quantite" data-max="@item.Produit.Quantite">
+                    </td>
+                    <td>
+                        <a href="#" class="RemoveLink"
+                           data-id="@item.RecordId">
+                            Retirer du panier
+                        </a>
+                    </td>
+
+                </tr>
+            </tbody>
+        }
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><b>Total</b></td>
+                <td id="cart-total">
+                    <b>€ @String.Format("{0:0.00}", Model.CartTotal)</b>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-danger pull-right" href="@Url.Action("AddressAndPayment", "Checkout", new { total = @Model.CartTotal }, null)">Commander</a>
+
+    @*<p class="button">
+            @Html.ActionLink("Checkout>>", "AddressAndPayment", "Checkout", new { total = @Model.CartTotal }, null)
+
+        </p>*@
+</div>
+@section scripts
+{
+    <script>
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $(".RemoveLink").click(function (event) {
+                // Get the id from the link
+               
+                var recordToDelete = $(this).attr("data-id");
+                if (recordToDelete != '') {
+                    // Perform the ajax post
+                    $.post("/ShoppingCart/RemoveFromCart", { "id": recordToDelete },
+                        function (data) {
+                            //if (data.ItemCount == 0) {
+                            //    $('#row-' + data.DeleteId).fadeOut('slow');
+                            //} else {
+                            //    $('#item-count-' + data.DeleteId).text(data.ItemCount);
+                             
+                            //}
+                            
+                            $('#row-' + data.DeleteId).fadeOut('slow');
+
+                            $('#cart-total').text('€'+data.CartTotal);
+                            $('#update-message').text(data.Message);
+                            $('#cart-status').text('Panier (' + data.CartCount + ')');
+                        });
+                }
+            });
+        });
+
+        function myBlur(current) {
+            var value = parseInt($(current).val());
+            var Max = parseInt($(current).attr("data-max"));
+            var Min = parseInt($(current).attr("min"));
+            var addRecordID = $(current).attr("data-id");
+            if (value < 0) {
+                value = Min;
+                $(current).val(value);
+
+            }
+            if (Max < value) {
+                txt1 = "il reste "
+                txt2 = " articles disponisble en stock"
+                var fulltext = txt1 + Max + txt2;
+                current.value = Max;
+                alert(fulltext);
+
+            } else {
+
+                if (addRecordID != '') {
+                    $.ajax({
+                        method: "POST",
+                        url: "@Url.Action("AddManyToCart","ShoppingCart")",
+                        data: { id: addRecordID, number: value }
+
+                    })
+                .done(function (data) {
+                    $('#cart-total').text('€' + data.CartTotal);
+                    $('#update-message').text(data.Message);
+                    $('#cart-status').text('Panier (' + data.CartCount + ')');
+                });
+
+                }
+            }
+
+        }
+
+
+
+
+
+    </script>
+}

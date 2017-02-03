@@ -1,0 +1,145 @@
+﻿@*@model IEnumerable<Produit>*@
+@using PagedList.Mvc
+@model PagedList.IPagedList<Produit>
+
+@{
+    ViewBag.Title = "Index";
+    string currentAction = Html.ViewContext.RouteData.GetRequiredString("action");
+    string currentController = Html.ViewContext.RouteData.GetRequiredString("controller");
+}
+
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            @if (currentAction.Equals("Index"))
+            {
+                <h1 class="page-header">La liste des produits</h1>
+
+            }
+            @if (currentAction.Equals("SearchProductBy"))
+            {
+                <h1 class="page-header">Resultat du recheche: @Request.QueryString["crit"]</h1>
+
+            }
+            @if (currentAction.Equals("SearchProductByMarque"))
+            {
+                <h1 class="page-header">Resultat du recheche: @Request.QueryString["crit"]</h1>
+
+            }
+            @if (currentAction.Equals("SearchByCriteria"))
+            {
+                <h1 class="page-header">Resultat du recheche: @Request.QueryString["crit"]</h1>
+
+            }
+
+
+        </div>
+
+        <table>
+            <tr>
+                <td align="center">
+                    @foreach (var item in Model)
+                    {
+                        decimal? prix = item.Price;
+                        decimal? pprix = (decimal)prix * 1.20m;
+                        var outputPprix = String.Format("{0:0.00}", pprix);
+
+
+                        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                            <a class="thumbnail" href="@Url.Action("Details", "Produits", new { id = item.ProduitId }) ">
+                                <img class=" img-responsive" src="@Url.Content(item.Image)" alt="">
+                            </a>
+
+                            <h3>
+                                @Html.DisplayFor(modelItem => item.Marque.Name) <br />
+                            </h3>
+                            <h4>
+                                <b>
+                                    @Html.DisplayFor(modelItem => item.Genre.Name) <br />
+
+                                </b>
+                            </h4>
+
+                            <h4 style="min-height:50px">
+                                <b>@Html.DisplayFor(modelItem => item.Title) <br /></b>
+                            </h4>
+
+
+                            @*@Html.DisplayFor(modelItem => item.Description) <br />*@
+
+                            <h4 style="color:red">
+                                <s style="color:black">@outputPprix<i class="glyphicon glyphicon-euro"></i></s>
+                                <b>@Html.DisplayFor(modelItem => item.Price)</b>
+                                <i class="glyphicon glyphicon-euro"></i>
+                                <br />
+                            </h4>
+
+                            @if (item.Quantite != 0)
+                            {
+                                <h5 style="color:green">
+                                    <b>
+                                        @Html.DisplayFor(modelItem => item.Quantite)
+                                        Produits en stock
+                                    </b> <br />
+                                </h5>
+                                <br />
+                                <a class="btn btn-success" href="@Url.Action("Details", "Produits", new { id = item.ProduitId })">Consulter</a>
+                                <div type="button" class="btn btn-primary btn_add" data-id="@item.ProduitId">Ajouter au panier</div>
+                                <br />   <br />
+
+                            }
+                            else
+                            {
+
+                                <h5 style="color:#FF0000">
+                                    <b>En rupture de stock</b>
+                                </h5><br />
+
+                                <a class="btn btn-success" href="@Url.Action("Details", "Produits", new { id = item.ProduitId })">Consulter</a>
+                                <br />   <br />
+                            }
+
+                        </div>
+                    }
+
+                </td>
+            </tr>
+
+        </table>
+
+
+    </div>
+</div>
+<div id="contentPager" style=" text-align:center">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action(currentAction, currentController, new { page, crit = Request.QueryString["crit"] }))
+</div>
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+            $(".btn_add").click(function () {
+                alert("Le produit a été ajouté à votre panier.");
+
+                var addRecordID = $(this).attr("data-id");
+                if (addRecordID != '') {
+                    $.ajax({
+                        method: "POST",
+                        url: "@Url.Action("AddToCart", "ShoppingCart")",
+                        data: { id: addRecordID }
+                    }).done(function (data) {
+                        $('#cart-status').text('Panier (' + data.CartCount + ')');
+                    });
+                    //location.reload();
+
+                }
+
+            });
+        });
+
+    </script>
+}
